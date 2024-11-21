@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
+
+if [[ -z "${PLATFORM_MACOS-}" ]]; then
+  echo "Only for mac right now" && exit
+fi
+
+# Ask for the administrator password upfront
+if command -v sudo &>/dev/null; then
+  sudo -v
+
+  while true; do
+    sudo -n true
+    sleep 300
+    kill -0 "$$" || exit
+  done 2>/dev/null &
+fi
+
+echo 'Empty the Trash on all mounted volumes and the main HDD…'
+sudo rm -rfv /Volumes/*/.Trashes
+sudo rm -rfv ~/.Trash
+
+echo 'Clear System Log Files…'
+sudo rm -rfv /private/var/log/asl/*.asl
+sudo rm -rfv /Library/Logs/DiagnosticReports/*
+rm -rfv ~/Library/Containers/com.apple.mail/Data/Library/Logs/Mail/*
+rm -rfv ~/Library/Logs/CoreSimulator/*
+
+echo 'Remove iOS Device Backups…'
+rm -rfv ~/Library/Application\ Support/MobileSync/Backup/*
+
+echo 'Cleanup XCode Derived Data and Archives…'
+rm -rfv ~/Library/Developer/Xcode/DerivedData/*
+rm -rfv ~/Library/Developer/Xcode/Archives/*
+
+echo 'Cleanup Homebrew Cache…'
+brew cleanup --prune all --verbose
+rm -rfv /Library/Caches/Homebrew/* # &>/dev/null
+brew tap --repair
+
+echo 'Cleanup any old versions of gems…'
+gem cleanup
+
+echo 'Running the maintenance scripts…'
+sudo periodic daily weekly monthly
+
+echo 'Purge inactive memory…'
+sudo purge
+
+echo "flushing dns..."
+sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
+
+echo "Done!"

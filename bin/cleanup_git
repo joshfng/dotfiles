@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
+
+CUR_DIR=$(pwd)
+
+echo -e "\n\033[1mCleaning up branches for all repositories...\033[0m\n"
+
+for i in $(find . -name .git -type d -prune | cut -c 3-); do
+  i=${i::-4}
+
+  echo ""
+  echo -e "\033[33m"+"$CUR_DIR/$i"+"\033[0m"
+
+  cd "$CUR_DIR/$i" || continue
+
+  [ -z "$(git status --porcelain)" ] || continue
+
+  # default_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+  default_branch=$(git symbolic-ref HEAD | sed -e 's/refs\/heads\///g')
+
+  git checkout "$default_branch"
+
+  git fetch --all
+
+  to_delete=$(git branch --no-contains "$default_branch" --merged)
+  [[ "$to_delete" == "" ]] && continue
+
+  echo "branches to be deleted $to_delete"
+
+  echo "$to_delete" | xargs -n 1 git branch -d
+
+  cd "$CUR_DIR" || exit
+done
+
+echo -e "\n\033[32mComplete!\033[0m\n"

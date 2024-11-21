@@ -1,0 +1,5 @@
+git_protocol: ssh
+editor: code
+prompt: enabled
+pager: cat
+version: "1"

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Copyright 2016 Joe Block <jpb@unixorn.net>
+# License: Apache (see LICENSE in this repo)
+#
+# Rebase commits that haven't been pushed to the tracked branch
+
+# shellcheck disable=SC1083
+exec git rebase -i "$(git rev-parse --abbrev-ref --symbolic-full-name @{u})"

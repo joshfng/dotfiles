@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [ -n "$VISUAL" ]; then
+    edit=$VISUAL
+elif  [ -n "$EDITOR" ]; then
+    edit=$EDITOR
+else
+    echo "\$VISUAL and \$EDITOR are both unset, aborting"
+    exit 1
+fi
+
+git conflicts | xargs "$edit"

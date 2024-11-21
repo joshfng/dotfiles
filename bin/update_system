@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
+
+echo "Updating dotfiles"
+echo
+
+bin_dir="$(realpath "${BASH_SOURCE[0]}")"
+DOTFILES_PATH=$(dirname "$(dirname "${bin_dir}")")
+cd "${DOTFILES_PATH}" || exit
+
+git rpull || true
+
+# shellcheck disable=SC1091
+. "${DOTFILES_PATH}/bin/sync_dotfiles"
+
+echo "Updating OS software..."
+echo
+
+if [[ -n "${PLATFORM_MACOS-}" ]]; then
+  softwareupdate --all --install --verbose --agree-to-license
+fi
+
+if [[ -n "${PLATFORM_LINUX-}" ]]; then
+  if command -v sudo &>/dev/null; then
+    sudo -v
+
+    while true; do
+      sudo -n true
+      sleep 300
+      kill -0 "$$" || exit
+    done 2>/dev/null &
+  fi
+
+  sudo apt-get update && \
+    sudo apt-get dist-upgrade -y
+
+  sudo apt-get autoremove -y && \
+    sudo apt-get autoclean -y
+fi
+
+if command -v brew &>/dev/null; then
+  echo
+  echo "Installing bundler packages..."
+  echo
+
+  if [[ -n "${PLATFORM_LINUX}" ]]; then
+    brew bundle install --global --brews --taps --vscode --no-lock --no-restart --cleanup
+  elif [[ -n "${PLATFORM_MACOS}" ]]; then
+    brew bundle install --global --no-lock --no-restart --cleanup
+  fi
+
+  brew update
+  brew upgrade
+fi
+
+if command -v asdf &>/dev/null; then
+  asdf update
+  asdf plugin update --all || true
+fi

@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC2115
+
+[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
+
+# DOTFILES_PATH="${HOME}/code/joshfng/dotfiles"
+bin_dir="$(realpath "${BASH_SOURCE[0]}")"
+DOTFILES_PATH=$(dirname "$(dirname "${bin_dir}")")
+
+declare -a files=(
+  bin
+  .aliases
+  .bash_git
+  .bash_profile
+  .bash_prompt
+  .bashrc
+  .Brewfile
+  .config
+  .curlrc
+  .editorconfig
+  .exports
+  .functions
+  .gemrc
+  .gitattributes
+  .gitconfig
+  .gitignore
+  .hushlogin
+  .inputrc
+  .Pakfile
+  .screenrc
+  .secrets
+  .shellcheckrc
+  .tmux.conf
+  .tool-versions
+  .wgetrc
+)
+
+echo "syncing files..."
+echo
+
+for i in "${files[@]}"; do
+  echo "linking ${i}"
+
+  rm -rf "${HOME:?}/${i}"
+
+  ln -s "${DOTFILES_PATH}/${i}" "${HOME}/${i}"
+done
+
+echo
+echo "done!"

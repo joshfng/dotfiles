@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+set -e
+
+disconnect_vpns() {
+  # shellcheck disable=SC2155
+  local conns=$(scutil --nc list | grep Connected | cut -d'"' -f 2)
+
+  echo "${conns}"
+  for c in ${conns}; do
+    scutil --nc stop "${c}"
+  done
+}
+
+main() {
+  local CLUSTER=$1
+
+  disconnect_vpns
+
+  # trying to connect too soon after disconnecting causes issues
+  sleep 1
+
+  if [[ "${CLUSTER}" == 'prod' ]]; then
+    scutil --nc start prod
+    aws sso login --profile prod
+    kubectx prod
+  elif [[ "${CLUSTER}" == 'dba' ]]; then
+    scutil --nc start dba
+    aws sso login --profile dba
+    kubectx dba
+  elif [[ "${CLUSTER}" == 'dev' ]]; then
+    scutil --nc start dev
+    aws sso login --profile dev
+    kubectx dev
+  elif [[ "${CLUSTER}" == 'gha-dev' ]]; then
+    scutil --nc start dev
+    aws sso login --profile dev
+    kubectx gha-dev
+  elif [[ "${CLUSTER}" == 'gha-stg' ]]; then
+    scutil --nc start stg
+    aws sso login --profile stg
+    kubectx gha-stg
+  elif [[ "${CLUSTER}" == 'stg' ]]; then
+    scutil --nc start stg
+    aws sso login --profile stg
+    kubectx stg
+  else
+    echo "Cluster '${CLUSTER}' is currently not supported."
+  fi
+}
+
+main "$@"

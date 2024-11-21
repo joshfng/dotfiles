@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC2312
+
+[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
+
+sudo locale-gen en_US.UTF-8
+
+export DEBIAN_FRONTEND=noninteractive
+
+if [[ ! -f '/etc/apt/sources.list.d/google-chrome.list' ]]; then
+  curl -fsSL "https://dl-ssl.google.com/linux/linux_signing_key.pub" | sudo apt-key add -
+  sudo sh -c 'echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
+fi
+
+if [[ ! -f '/etc/apt/sources.list.d/vscode.list' ]]; then
+  curl -fsSL "https://packages.microsoft.com/keys/microsoft.asc" | gpg --dearmor > microsoft.gpg
+  sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+  rm -rf microsoft.gpg
+  sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+fi
+
+if [[ ! -f '/etc/apt/sources.list.d/tailscale.list' ]]; then
+  curl -fsSL "https://pkgs.tailscale.com/stable/ubuntu/noble.noarmor.gpg" | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
+  curl -fsSL "https://pkgs.tailscale.com/stable/ubuntu/noble.tailscale-keyring.list" | sudo tee /etc/apt/sources.list.d/tailscale.list
+fi
+
+if [[ ! -f '/etc/apt/sources.list.d/brave-browser-release.list' ]]; then
+  curl -fsSL "https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg" | sudo tee /usr/share/keyrings/brave-browser-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"| sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+fi
+
+sudo apt-get update
+
+sudo apt-get install -y \
+  apt-transport-https \
+  brave-browser \
+  bridge-utils \
+  build-essential \
+  ca-certificates \
+  code \
+  curl \
+  dconf-cli \
+  file \
+  git \
+  gpustat \
+  gputils \
+  grep \
+  gzip \
+  htop \
+  hwinfo  \
+  iat \
+  libcamera0.2 \
+  libcurl4-openssl-dev \
+  libffi-dev \
+  libgdbm-dev \
+  libgmp-dev \
+  libguestfs-tools \
+  libosinfo-bin \
+  libpcap* \
+  libreadline-dev \
+  libsqlite3-dev \
+  libssl-dev \
+  libvirt-clients \
+  libvirt-daemon-system \
+  libvirt-dev \
+  libxml2-dev \
+  libxslt1-dev \
+  libyaml-dev \
+  lm-sensors \
+  net-tools \
+  ngrep \
+  nmap \
+  procps \
+  qemu-kvm \
+  qemu-system \
+  qemu-system-x86 \
+  qemu-user \
+  qemu-utils \
+  rustc \
+  software-properties-common \
+  sqlite3 \
+  tailscale \
+  tshark \
+  vim \
+  virtinst \
+  wget \
+  wireguard \
+  wpasupplicant \
+  xclip \
+  zlib1g-dev
+
+# remove ubuntu's flavor of gnome and use stock if running on a desktop
+if [[ -n "${DESKTOP_SESSION}" ]]; then
+  sudo apt-get purge -y pipewire-alsa pipewire-audio ubuntu-desktop gnome-shell-extension-ubuntu-dock libreoffice*
+
+  sudo apt-get -y install  \
+    dconf-editor \
+    gnome-shell-extension-manager \
+    gnome-software-plugin-flatpak \
+    gnome-software-plugin-snap \
+    gnome-system-tools \
+    google-chrome-beta \
+    google-chrome-stable \
+    gstreamer1.0-libcamera \
+    gstreamer1.0-pipewire \
+    handbrake \
+    kdenlive \
+    krita \
+    pipewire \
+    vanilla-gnome-default-settings \
+    vanilla-gnome-desktop \
+    virt-manager \
+    wireplumber \
+    yubikey-manager-qt \
+    yubioath-desktop
+
+  sudo update-alternatives --config gdm3-theme.gresource
+
+  dconf load / < ~/.config/dconf-settings.ini
+
+  if ! command -v discord &> /dev/null; then
+    curl -fsSL -o /tmp/discord.deb "https://discord.com/api/download?platform=linux&format=deb"
+    sudo apt-get -y install /tmp/discord.deb
+  fi
+
+  if ! command -v open-lens &> /dev/null; then
+    curl -fsSL -o /tmp/openlens.deb "https://github.com/MuhammedKalkan/OpenLens/releases/download/v6.5.2-366/OpenLens-6.5.2-366.amd64.deb"
+    sudo apt-get -y install /tmp/openlens.deb
+  fi
+fi

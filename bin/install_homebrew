@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
+
+if command -v brew 2&>/dev/null; then
+  echo
+  echo "homebrew is already installed"
+  echo
+
+  return
+fi
+
+echo "Installing homebrew and packages..."
+echo
+
+if [[ -n "${PLATFORM_LINUX-}" ]]; then
+  echo "installing linux deps"
+  echo
+
+  sudo apt-get update && sudo apt-get install -y -q build-essential curl software-properties-common git ca-certificates
+fi
+
+# shellcheck disable=SC2312
+NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
+
+# shellcheck source=../.bashrc
+. "${HOME}/.bashrc"
+
+if ! command -v brew 2&>/dev/null; then
+  echo
+  echo "homebrew not available! exiting!"
+  echo
+
+  exit 127
+fi
+
+brew install gcc
+brew doctor
+
+echo
+echo "done!"
+echo

@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
+
+if [[ -z "${PLATFORM_MACOS-}" ]]; then
+  echo "Only for mac right now" && exit
+fi
+
+echo " Disable Firewall"
+
+# Turn off StealthMode
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
+
+# The EnableLogging and LoggingOption keys in the Firewall payload are deprecated and no longer
+# necessary. Application Firewall logging is increased by default for the socketfilterfw process.
+# https://support.apple.com/en-us/121011
+# sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode off
+
+# Don't block all services
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setblockall off
+
+# Allow automatically built-in apps from receiving connections.
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp on
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned on
+
+# Turn off the firewall
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate off
+
+# List all apps which the firewall is currently blocking or allowing
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --listapps
+
+# # Block a Specific Application (this requires the full application $PATH)
+# sudo /usr/libexec/ApplicationFirewall/socketfilterfw --blockapp /usr/libexec/remoted
+
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate
+
+# It is always good practice to restart the firewall after interactive with it
+sudo pkill -HUP socketfilterfw

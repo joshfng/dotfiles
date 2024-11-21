@@ -1,0 +1,9 @@
+shell=bash
+
+# Enable all optional checks
+enable=all
+
+# Follow source statements even when the file is not specified as input
+external-sources=true
+
+source-path=SCRIPTDIR/bin

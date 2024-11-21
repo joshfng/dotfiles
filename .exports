@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC2312,SC2154
+
+[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
+
+# export BUNDLER_EDITOR="code --new-window"
+export EDITOR=vim
+
+export XDG_CONFIG_HOME="${HOME}/.config"
+
+GPG_TTY=$(tty)
+export GPG_TTY
+
+export HISTCONTROL='ignoreboth:erasedups'
+export HISTSIZE='32768'
+export HISTFILESIZE="${HISTSIZE}"
+export PROMPT_COMMAND='history -a'
+
+export MANPAGER='less -X'
+
+export GOPATH="${HOME}/go"
+export PYTHONIOENCODING='UTF-8'
+
+export DOCKER_BUILDKIT=1 # or configure in daemon.json
+export COMPOSE_DOCKER_CLI_BUILD=1
+
+export PATH="${HOME}/bin:${PATH}"
+export PATH="${HOME}/bin/git:${PATH}"
+export PATH="${GOPATH}/bin:${PATH}"
+export PATH="${HOME}/.local/bin:${PATH}"
+export PATH="${HOME}/.docker/bin:${PATH}"
+
+# ruby-build should figure this out automatically
+# RUBY_CONFIGURE_OPTS="--with-open-ssl-dir=${HOMEBREW_PREFIX}/opt/openssl"
+# export RUBY_CONFIGURE_OPTS
+
+export RUBY_BUILD_OPTS="--verbose"
+
+export RUBYOPT="--yjit"
