@@ -163,20 +163,16 @@ alias tsup="sudo tailscale up --accept-routes=true --exit-node=unraid --shields-
 alias tsdown="sudo tailscale down"
 
 # IP addresses
-alias ipaddy="dig +short myip.opendns.com @resolver1.opendns.com"
-# alias ipaddy="curl https://icanhazip.com"
-
-# TODO: fix so it's dynamic
-alias localip="ipconfig getifaddr en2"
-alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
+alias ipaddy="curl https://icanhazip.com"
+alias localip=myip
 
 # Show active network interfaces
-alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
+alias ifactive="ifconfig | pcre2grep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
 
 alias openports="lsof -i tcp"
 alias portscan="sudo nmap -sT -O "
 alias brutalportscan="sudo nmap -p- -Pn -A -vv "
-alias localnetwork="sudo nmap -sn 10.0.1.0/24"
+alias localnetwork="sudo nmap -sn 10.0.0.0/16"
 alias localarp="arp -a -l"
 alias arptable="arp -a -l"
 alias arpclean="sudo arp -a -n -d"

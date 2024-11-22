@@ -100,6 +100,10 @@ flushdns() {
   fi
 }
 
+myip() {
+  ifconfig | awk '/inet / {print $2}' | grep -v 127.0.0.1
+}
+
 edit() {
   if [[ $# -gt 0 ]]; then
     code "$@"
