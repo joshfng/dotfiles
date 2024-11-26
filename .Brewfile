@@ -74,6 +74,7 @@ brew "testssl"
 brew "tree"
 brew "watch"
 brew "wget"
+brew "wireguard-tools"
 brew "wireshark", link: false
 brew "yamllint"
 brew "yq"

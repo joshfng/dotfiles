@@ -4,12 +4,14 @@ set -e
 
 disconnect_vpns() {
   # shellcheck disable=SC2155
-  local conns=$(scutil --nc list | grep Connected | cut -d'"' -f 2)
+  # local conns=$(scutil --nc list | grep Connected | cut -d'"' -f 2)
 
-  echo "${conns}"
-  for c in ${conns}; do
-    scutil --nc stop "${c}"
-  done
+  # echo "${conns}"
+  # for c in ${conns}; do
+  #   scutil --nc stop "${c}"
+  # done
+
+  scutil --nc stop prod
 }
 
 main() {
