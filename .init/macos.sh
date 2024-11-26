@@ -46,7 +46,7 @@ for service in "${services[@]}"; do
 done
 
 # Set computer name (as done via System Preferences → Sharing)
-networksetup -setcomputername "${HOSTNAME}"
+sudo networksetup -setcomputername "${HOSTNAME}"
 sudo scutil --set ComputerName "${HOSTNAME}"
 sudo scutil --set HostName "${HOSTNAME}"
 sudo scutil --set LocalHostName "${HOSTNAME}"
