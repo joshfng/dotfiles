@@ -49,10 +49,12 @@ export SHELL
 # shellcheck disable=SC1091
 [[ -f "${HOME}/.secrets" ]] && . "${HOME}/.secrets"
 
-# BASH Options
-for option in checkwinsize autocd globstar cdspell histappend nocaseglob; do
-	shopt -s "${option}" 2> /dev/null
-done
+[[ -f "${HOME}/bin/sensible.bash" ]] && . "${HOME}/bin/sensible.bash"
+
+# # BASH Options
+# for option in checkwinsize autocd globstar cdspell histappend nocaseglob; do
+# 	shopt -s "${option}" 2> /dev/null
+# done
 
 # Load the shell dotfiles, and then some:
 for file in "${HOME}/."{functions,bash_prompt,aliases,extra,secrets}; do
@@ -62,7 +64,7 @@ done
 unset file
 
 # Use bash-completion, if available
-[[ -n "${PS1}" && -f "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]] && . "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+[[ -n "${PS1}" && -n "${HOMEBREW_PREFIX}" && -f "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]] && . "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
 [[ -n "${PS1}" && -f /usr/share/bash-completion/bash_completion ]] && . /usr/share/bash-completion/bash_completion
 
 if [[ -d /usr/local/etc/bash_completion.d ]]; then

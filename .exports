@@ -12,10 +12,10 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 GPG_TTY=$(tty)
 export GPG_TTY
 
-export HISTCONTROL='ignoreboth:erasedups'
-export HISTSIZE='32768'
-export HISTFILESIZE="${HISTSIZE}"
-export PROMPT_COMMAND='history -a'
+# export HISTCONTROL='ignoreboth:erasedups'
+# export HISTSIZE='32768'
+# export HISTFILESIZE="${HISTSIZE}"
+# export PROMPT_COMMAND='history -a'
 
 export MANPAGER='less -X'
 
