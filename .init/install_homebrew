@@ -13,7 +13,7 @@ fi
 echo "Installing homebrew and packages..."
 echo
 
-if [[ -n "${PLATFORM_LINUX-}" ]]; then
+if [[ "${PLATFORM-}" == "linux" ]]; then
   echo "installing linux deps"
   echo
 

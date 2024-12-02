@@ -2,6 +2,8 @@
 
 set -e
 
+[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
+
 disconnect_vpns() {
   # shellcheck disable=SC2155
   # local conns=$(scutil --nc list | grep Connected | cut -d'"' -f 2)

@@ -8,6 +8,8 @@
 
 set -eo pipefail
 
+[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
+
 if [[ -f "$1" ]]; then
   case "$1" in
   *.tar.bz2) tar -jxvf "$1" ;;

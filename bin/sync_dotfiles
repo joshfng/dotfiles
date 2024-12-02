@@ -4,14 +4,12 @@
 
 [[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
 
-# DOTFILES_PATH="${HOME}/code/joshfng/dotfiles"
 bin_dir="$(realpath "${BASH_SOURCE[0]}")"
 DOTFILES_PATH=$(dirname "$(dirname "${bin_dir}")")
 
 declare -a files=(
   bin
   .aliases
-  .bash_git
   .bash_profile
   .bash_prompt
   .bashrc

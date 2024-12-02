@@ -2,9 +2,7 @@
 
 [[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
 
-if [[ -z "${PLATFORM_MACOS-}" ]]; then
-  echo "Only for mac right now" && exit
-fi
+[[ "${PLATFORM-}" != "mac" ]] && echo "Only for mac right now" && exit
 
 echo " Enable Firewall"
 

@@ -4,60 +4,9 @@
 
 [[ -f "${HOME}/.exports" ]] && . "${HOME}/.exports"
 
-# Prefer US English and use UTF-8.
-export LANG='en_US.UTF-8'
-export LC_ALL='en_US.UTF-8'
-
-OS="$(uname)"
-if [[ "${OS}" == "Linux" ]]; then
-  PLATFORM_LINUX=1
-elif [[ "${OS}" == "Darwin" ]]; then
-  PLATFORM_MACOS=1
-fi
-
-export PLATFORM_LINUX
-export PLATFORM_MACOS
-
-# shellcheck disable=SC2154
-if [[ "${COLORTERM}" = gnome-* && "${TERM}" = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
-  export TERM='gnome-256color'
-elif infocmp xterm-256color >/dev/null 2>&1; then
-  export TERM='xterm-256color'
-fi
-
-export HOMEBREW_NO_ANALYTICS=1
-export HOMEBREW_NO_ENV_HINTS=1
-
-# Load Homebrew as early as possible
-if [[ -n "${PLATFORM_MACOS-}" ]]; then
-  if [[ -f /opt/homebrew/bin/brew ]]; then
-    # Apple M series chip install location
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  elif [[ -f /usr/local/bin/brew ]]; then
-    # Apple Intel chip install location
-    eval "$(/usr/local/bin/brew shellenv)"
-  fi
-elif [[ -n "${PLATFORM_LINUX-}" ]]; then
-  if [[ -f /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-  fi
-fi
-
-SHELL="$(command -v bash)"
-export SHELL
-
-# shellcheck disable=SC1091
 [[ -f "${HOME}/.secrets" ]] && . "${HOME}/.secrets"
 
-[[ -f "${HOME}/bin/sensible.bash" ]] && . "${HOME}/bin/sensible.bash"
-
-# # BASH Options
-# for option in checkwinsize autocd globstar cdspell histappend nocaseglob; do
-# 	shopt -s "${option}" 2> /dev/null
-# done
-
-# Load the shell dotfiles, and then some:
-for file in "${HOME}/."{functions,bash_prompt,aliases,extra,secrets}; do
+for file in "${HOME}/."{functions,bash_prompt,aliases,extra}; do
   # shellcheck source=/dev/null
   [[ -f "${file}" ]] && . "${file}"
 done

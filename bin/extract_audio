@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
+[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
+
 ffmpeg -i "$1" -f mp3 -ab 192000 -vn music.mp3

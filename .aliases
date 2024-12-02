@@ -2,7 +2,7 @@
 
 # LINUX
 
-if [[ -n "${PLATFORM_LINUX-}" ]]; then
+if [[ "${PLATFORM-}" == "linux" ]]; then
   alias dgpu="sudo prime-select nvidia"
   alias igpu="sudo prime-select on-demand"
 
@@ -17,7 +17,7 @@ fi
 
 # MACOS
 
-if [[ -n "${PLATFORM_MACOS-}" ]]; then
+if [[ "${PLATFORM-}" == "mac" ]]; then
   alias freemem="sudo purge"
 
   colorflag="-G"
@@ -177,9 +177,9 @@ alias localarp="arp -a -l"
 alias arptable="arp -a -l"
 alias arpclean="sudo arp -a -n -d"
 
-if [[ -n "${PLATFORM_LINUX}" ]]; then
+if [[ "${PLATFORM-}" == "linux" ]]; then
   alias dumpbrew="brew bundle dump --force --global --all --no-lock --no-restart"
-else
+elif [[ "${PLATFORM-}" == "mac" ]]; then
   alias dumpbrew="brew bundle dump --force --global --all --no-lock --no-restart"
 fi
 
