@@ -22,22 +22,14 @@ fi
 . "${HOME}/.bashrc"
 . "${HOME}/.bash_profile"
 
-if [[ -n "${PLATFORM_MACOS-}" ]]; then
-  echo "Running macos bootstrap..."
+[[ "${PLATFORM-}" == "mac" ]] && . "${DOTFILES_PATH}/.init/macos.sh"
 
-  . "${DOTFILES_PATH}/.init/macos.sh"
-fi
+[[ "${PLATFORM-}" == "linux" ]] &&. "${DOTFILES_PATH}/.init/linux.sh"
 
-if [[ -n "${PLATFORM_LINUX-}" ]]; then
-  echo "Running linux bootstrap..."
-
-  . "${DOTFILES_PATH}/.init/linux.sh"
-fi
-
-. "${DOTFILES_PATH}/bin/install_homebrew"
+. "${DOTFILES_PATH}/.init/install_homebrew"
 
 # use homebrew bash on macos
-if [[ -n "${PLATFORM_MACOS-}" ]]; then
+if [[ "${PLATFORM-}" == "mac" ]]; then
   hb_bash="${HOMEBREW_PREFIX}/opt/bin/bash" || "$(command -v bash)"
 
   if ! grep "${hb_bash}" /etc/shells &>/dev/null; then

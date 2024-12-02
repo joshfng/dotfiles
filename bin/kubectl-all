@@ -2,6 +2,8 @@
 
 set -eo pipefail
 
+[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
+
 NAMESPACE=$1
 
 function kubectlgetall {

@@ -2,9 +2,7 @@
 
 [[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
 
-if [[ -z "${PLATFORM_MACOS-}" ]]; then
-  echo "Only for mac right now" && exit
-fi
+[[ "${PLATFORM-}" != "mac" ]] && echo "Only for mac right now" && exit
 
 # Ask for the administrator password upfront
 if command -v sudo &>/dev/null; then
@@ -36,14 +34,11 @@ rm -rfv ~/Library/Developer/Xcode/Archives/*
 
 echo 'Cleanup Homebrew Cache…'
 brew cleanup --prune all --verbose
-rm -rfv /Library/Caches/Homebrew/* # &>/dev/null
+rm -rfv /Library/Caches/Homebrew/*
 brew tap --repair
 
 echo 'Cleanup any old versions of gems…'
 gem cleanup
-
-echo 'Running the maintenance scripts…'
-sudo periodic daily weekly monthly
 
 echo 'Purge inactive memory…'
 sudo purge

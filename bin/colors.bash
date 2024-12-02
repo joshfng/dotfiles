@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC2034
+
 NC='\033[0m'       # No Color
 
 # Regular Colors

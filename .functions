@@ -2,8 +2,6 @@
 
 # shellcheck disable=SC2155,SC2312
 
-[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
-
 function kill_vpns() {
   local conns=$(scutil --nc list | grep Connected | cut -d'"' -f 2)
 
@@ -72,7 +70,7 @@ function gz() {
 
 # Normalize `open` across Linux, macOS, and Windows.
 # This is needed to make the `o` function (see below) cross-platform.
-if [[ -n "${PLATFORM_LINUX-}" ]]; then
+if [[ "${PLATFORM-}" == "linux" ]]; then
   if grep -q Microsoft /proc/version; then
     # Ubuntu on Windows using the Linux subsystem
     alias open='explorer.exe'
@@ -92,10 +90,10 @@ function o() {
 }
 
 flushdns() {
-  if [[ -n "${PLATFORM_MACOS-}" ]]; then
+  if [[ "${PLATFORM-}" == "mac" ]]; then
     sudo dscacheutil -flushcache
     sudo killall -HUP mDNSResponder
-  elif [[ -n "${PLATFORM_LINUX-}" ]]; then
+  elif [[ "${PLATFORM-}" == "linux" ]]; then
     sudo resolvectl flush-caches
   fi
 }
