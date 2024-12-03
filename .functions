@@ -2,6 +2,54 @@
 
 # shellcheck disable=SC2155,SC2312
 
+sudo_keepalive() {
+  if command -v sudo &>/dev/null; then
+    sudo -v
+
+    while true; do
+      sudo -n true
+      sleep 60
+      kill -0 "$$" || exit
+    done 2>/dev/null &
+  fi
+}
+
+wipe_disk() {
+  local device
+  if [[ "$1" == "/dev/"* ]]; then
+    device="$1"
+  else
+    echo "missing device, ie: wipe_disk /dev/diskN"
+    exit
+  fi
+
+  sudo_keepalive
+
+  echo "wiping disk ${device}"
+  echo
+
+  if command -v scrub 2 &>/dev/null; then
+    sudo scrub --pattern nnsa "${device}"
+  elif command -v dd 2 &>/dev/null; then
+    for i in {1..3}; do
+      echo "pass ${i} of 3 start..."
+
+      # random data for pass 1 & 2, zeros for 3
+      local if="/dev/random"
+      if [[ ${i} == 3 ]]; then
+        if="/dev/zero"
+      fi
+
+      sudo dd if="${if}" of="${device}" bs=4m status=progress
+      sync
+
+      echo
+      echo "pass ${i} of 3 done!"
+      echo
+    done
+  fi
+}
+
 function kill_vpns() {
   local conns=$(scutil --nc list | grep Connected | cut -d'"' -f 2)
 
