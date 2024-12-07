@@ -87,12 +87,13 @@ alias ..="cd .."
 alias ...="cd ../../"
 alias ....="cd ../../../"
 
-alias h="cd ~/"
-alias cc="cd ~/code"
-alias dl="cd ~/Downloads"
+alias h='cd $HOME'
+alias cc='cd $HOME/code'
+alias dl='cd $HOME/Downloads'
+
+alias dotfiles='cd $HOME/code/dotfiles'
 
 alias e="edit"
-# alias vim="nvim"
 
 # clamav virus scan in docker
 alias vscan="docker run -it --rm -v /:/scan:ro clamav/clamav:latest clamscan --verbose --stdout --recursive --suppress-ok-results /scan"
