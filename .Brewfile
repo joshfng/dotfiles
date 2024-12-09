@@ -1,4 +1,3 @@
-tap "1password/tap"
 tap "derailed/k9s"
 tap "fluxcd/tap"
 tap "github/gh"
