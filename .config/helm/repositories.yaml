@@ -82,3 +82,21 @@ repositories:
   password: ""
   url: https://kubernetes-sigs.github.io/metrics-server/
   username: ""
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: signoz
+  pass_credentials_all: false
+  password: ""
+  url: https://charts.signoz.io
+  username: ""
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: open-telemetry
+  pass_credentials_all: false
+  password: ""
+  url: https://open-telemetry.github.io/opentelemetry-helm-charts
+  username: ""
