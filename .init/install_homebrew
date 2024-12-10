@@ -24,7 +24,7 @@ fi
 NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
 
 # shellcheck source=../.bashrc
-. "${HOME}/.bashrc"
+. "${HOME}/.bash_profile";
 
 if ! command -v brew 2&>/dev/null; then
   echo
