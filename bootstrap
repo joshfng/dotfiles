@@ -22,9 +22,9 @@ fi
 . "${HOME}/.bashrc"
 . "${HOME}/.bash_profile"
 
-[[ "${PLATFORM-}" == "mac" ]] && . "${DOTFILES_PATH}/.init/macos.sh"
+[[ "${PLATFORM-}" == "mac" ]] && . "${DOTFILES_PATH}/.init/macos"
 
-[[ "${PLATFORM-}" == "linux" ]] &&. "${DOTFILES_PATH}/.init/linux.sh"
+[[ "${PLATFORM-}" == "linux" ]] &&. "${DOTFILES_PATH}/.init/linux"
 
 . "${DOTFILES_PATH}/.init/install_homebrew"
 

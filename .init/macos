@@ -656,10 +656,10 @@ defaults write com.apple.terminal StringEncodings -array 4
 defaults write com.apple.Terminal ShowLineMarks -int 0
 
 # Install the OneDark theme for iTerm
-# open -a iTerm "./.init/OneDark.itermcolors"
+# open -a iTerm "./.init/configs/OneDark.itermcolors"
 
 # Copy prefs
-cp ./.init/com.googlecode.iterm2.p* ~/Library/Preferences/
+cp ./.init/configs/com.googlecode.iterm2.p* ~/Library/Preferences/
 
 # Don’t display the annoying prompt when quitting iTerm
 defaults write com.googlecode.iterm2 PromptOnQuit -bool false
