@@ -3,6 +3,8 @@
 # shellcheck disable=SC2154,SC1091
 
 if [[ -f "${HOMEBREW_PREFIX}/opt/bash-git-prompt/share/gitprompt.sh" ]]; then
+  export GIT_PROMPT_THEME=Default_NoExitState_Ubuntu
+
   __GIT_PROMPT_DIR=$(brew --prefix)/opt/bash-git-prompt/share
 
   # export GIT_PROMPT_ONLY_IN_REPO=1
@@ -21,7 +23,12 @@ if [[ -f "${HOMEBREW_PREFIX}/opt/bash-git-prompt/share/gitprompt.sh" ]]; then
     export GIT_PROMPT_END=' $(kube_ps1)\n$ '
   fi
 
-  export GIT_PROMPT_THEME=Default_NoExitState_Ubuntu
-
   . "${HOMEBREW_PREFIX}/opt/bash-git-prompt/share/gitprompt.sh"
+elif [[ -f "${HOMEBREW_PREFIX}/opt/kube-ps1/share/kube-ps1.sh" ]]; then
+  . "${HOMEBREW_PREFIX}/opt/kube-ps1/share/kube-ps1.sh"
+
+  export KUBE_PS1_NS_ENABLE=false
+  export KUBE_PS1_SYMBOL_ENABLE=false
+
+  PS1='$(kube_ps1) '${PS1}
 fi
