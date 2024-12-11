@@ -2,47 +2,38 @@
 
 # shellcheck disable=SC2115
 
-[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
-
 bin_dir="$(realpath "${BASH_SOURCE[0]}")"
 DOTFILES_PATH=$(dirname "$(dirname "${bin_dir}")")
 
-declare -a files=(
-  bin
-  .aliases
-  .bash_profile
-  .bash_prompt
-  .bashrc
-  .Brewfile
-  .config
-  .curlrc
-  .editorconfig
-  .exports
-  .functions
-  .gemrc
-  .gitattributes
-  .gitconfig
-  .gitignore
-  .hushlogin
-  .inputrc
-  .Pakfile
-  .screenrc
-  .secrets
-  .shellcheckrc
-  .tmux.conf
-  .tool-versions
-  .wgetrc
-)
+declare -a files=( bin )
+
+for dotfile_path in "${DOTFILES_PATH}"/.[a-zA-Z]*; do
+  dotfile=$(basename "${dotfile_path}")
+
+  # don't symlink these files
+  [[ "${dotfile}" =~ .git|.init|.ruby-lsp ]] && continue
+
+  files+=( "${dotfile}" )
+done
 
 echo "syncing files..."
 echo
 
-for i in "${files[@]}"; do
-  echo "linking ${i}"
+for file in "${files[@]}"; do
+  echo "linking ${file}"
 
-  rm -rf "${HOME:?}/${i}"
+  home_path="${HOME:?}/${file}"
+  dot_path="${DOTFILES_PATH}/${file}"
 
-  ln -s "${DOTFILES_PATH}/${i}" "${HOME}/${i}"
+  if [[ -L "${home_path}" ]]; then
+    # delete if symlink
+    rm "${home_path}"
+  else
+    # backup if not symlink
+    mv "${home_path}" "${home_path}.bak"
+  fi
+
+  ln -s "${dot_path}" "${home_path}"
 done
 
 echo

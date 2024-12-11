@@ -31,3 +31,6 @@ unset completion_dir
 
 [[ -r "${HOME}/.asdf/asdf.sh" ]] && . "${HOME}/.asdf/asdf.sh"
 [[ -r "${HOME}/.asdf/completions/asdf.bash" ]] && . "${HOME}/.asdf/completions/asdf.bash"
+
+# disable flow control if we have a TTY
+[[ -s 0 ]] && stty -ixon
