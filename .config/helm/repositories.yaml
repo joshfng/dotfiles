@@ -118,3 +118,12 @@ repositories:
   password: ""
   url: https://getredash.github.io/contrib-helm-chart
   username: ""
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: actions-runner-controller
+  pass_credentials_all: false
+  password: ""
+  url: https://actions-runner-controller.github.io/actions-runner-controller
+  username: ""
