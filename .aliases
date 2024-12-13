@@ -229,5 +229,8 @@ alias dba='kube-env dba'
 
 alias kvpn=kill_vpns
 
+alias k=kubectl
+complete -o default -F __start_kubectl k
+
 alias rubyconf='ruby -r rbconfig -e "pp RbConfig::CONFIG"'
 alias prunesymlinks='find ! -name . -prune -type l | xargs rm'
