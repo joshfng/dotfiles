@@ -5,13 +5,14 @@
 bin_dir="$(realpath "${BASH_SOURCE[0]}")"
 DOTFILES_PATH=$(dirname "$(dirname "${bin_dir}")")
 
+SYNC_EXCLUDES=".git|.init|.ruby-lsp"
+
 declare -a files=( bin )
 
 for dotfile_path in "${DOTFILES_PATH}"/.[a-zA-Z]*; do
   dotfile=$(basename "${dotfile_path}")
 
-  # don't symlink these files
-  [[ "${dotfile}" =~ .git|.init|.ruby-lsp ]] && continue
+  [[ "${dotfile}" =~ ${SYNC_EXCLUDES} ]] && continue
 
   files+=( "${dotfile}" )
 done

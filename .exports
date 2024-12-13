@@ -6,7 +6,7 @@ declare PLATFORM
 if [[ "${OSTYPE}" == "linux"* ]]; then
   PLATFORM="linux"
 elif [[ "${OSTYPE}" == "darwin"* ]]; then
-  PLATFORM="mac"
+  PLATFORM="darwin"
 fi
 export PLATFORM
 
@@ -36,8 +36,7 @@ fi
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_ENV_HINTS=1
 
-# Load Homebrew as early as possible
-if [[ "${PLATFORM-}" == "mac" ]]; then
+if [[ "${PLATFORM-}" == "darwin" ]]; then
   # Apple M series chip install location
   [[ -f /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
 

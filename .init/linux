@@ -2,8 +2,6 @@
 
 # shellcheck disable=SC2312
 
-[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
-
 sudo locale-gen en_US.UTF-8
 
 export DEBIAN_FRONTEND=noninteractive

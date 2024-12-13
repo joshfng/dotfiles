@@ -2,7 +2,15 @@
 
 # shellcheck disable=SC2312
 
-[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
+if [[ ! -f '/etc/pam.d/sudo_local' ]]; then
+  # enable touch id sudo auth
+  sed "s/^#auth/auth/" /etc/pam.d/sudo_local.template | sudo tee /etc/pam.d/sudo_local
+fi
+
+# shellcheck disable=SC1091
+. "${DOTFILES_PATH}/.functions"
+
+sudo_keepalive
 
 sudo softwareupdate --install-rosetta --agree-to-license
 

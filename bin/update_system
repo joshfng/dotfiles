@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
-
 echo "Updating dotfiles"
 echo
 
@@ -17,7 +15,7 @@ git rpull || true
 echo "Updating OS software..."
 echo
 
-if [[ "${PLATFORM-}" == "mac" ]]; then
+if [[ "${PLATFORM-}" == "darwin" ]]; then
   softwareupdate --all --install --verbose --agree-to-license
 fi
 
@@ -46,7 +44,7 @@ if command -v brew &>/dev/null; then
 
   if [[ "${PLATFORM-}" == "linux" ]]; then
     brew bundle install --global --brews --taps --vscode --no-lock --no-restart --cleanup
-  elif [[ "${PLATFORM-}" == "mac" ]]; then
+  elif [[ "${PLATFORM-}" == "darwin" ]]; then
     brew bundle install --global --no-lock --no-restart --cleanup
   fi
 

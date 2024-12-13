@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
-
-[[ "${PLATFORM-}" != "mac" ]] && echo "Only for mac right now" && exit
+[[ "${PLATFORM-}" != "darwin" ]] && echo "Only for mac right now" && exit
 
 echo " Disable Firewall"
 

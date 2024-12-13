@@ -17,7 +17,7 @@ fi
 
 # MACOS
 
-if [[ "${PLATFORM-}" == "mac" ]]; then
+if [[ "${PLATFORM-}" == "darwin" ]]; then
   alias freemem="sudo purge"
 
   colorflag="-G"
@@ -180,7 +180,7 @@ alias arpclean="sudo arp -a -n -d"
 
 if [[ "${PLATFORM-}" == "linux" ]]; then
   alias dumpbrew="brew bundle dump --force --global --all --no-lock --no-restart"
-elif [[ "${PLATFORM-}" == "mac" ]]; then
+elif [[ "${PLATFORM-}" == "darwin" ]]; then
   alias dumpbrew="brew bundle dump --force --global --all --no-lock --no-restart"
 fi
 

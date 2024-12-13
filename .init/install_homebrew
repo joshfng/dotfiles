@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
-
 if command -v brew 2&>/dev/null; then
   echo
   echo "homebrew is already installed"
@@ -17,7 +15,7 @@ if [[ "${PLATFORM-}" == "linux" ]]; then
   echo "installing linux deps"
   echo
 
-  sudo apt-get update && sudo apt-get install -y -q build-essential curl software-properties-common git ca-certificates
+  sudo apt-get update && sudo apt-get install -y build-essential curl software-properties-common git ca-certificates
 fi
 
 # shellcheck disable=SC2312

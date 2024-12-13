@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[[ -n ${TRACE} ]] && set -x && export TRACE=${TRACE}
-
 CUR_DIR=$(pwd)
 
 echo -e "\n\033[1mPulling in latest changes for all repositories...\033[0m\n"
