@@ -56,12 +56,17 @@ export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 
 # order by priority desc (highest priority should be listed last)
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 export PATH="${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:${PATH}"
 export PATH="${HOME}/.docker/bin:${PATH}"
 export PATH="${HOME}/.local/bin:${PATH}"
 export PATH="${GOPATH}/bin:${PATH}"
 export PATH="${HOME}/bin/git:${PATH}"
 export PATH="${HOME}/bin:${PATH}"
+
+export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/libpq/lib/pkgconfig"
 
 export RUBY_BUILD_OPTS="--verbose"
 
