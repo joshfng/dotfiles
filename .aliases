@@ -232,5 +232,8 @@ alias kvpn=kill_vpns
 alias k=kubectl
 complete -o default -F __start_kubectl k
 
+alias g=git
+complete -o default -o nospace -F __git_wrap__git_main g
+
 alias rubyconf='ruby -r rbconfig -e "pp RbConfig::CONFIG"'
 alias prunesymlinks='find ! -name . -prune -type l | xargs rm'
