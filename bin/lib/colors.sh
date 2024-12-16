@@ -2,7 +2,8 @@
 
 # shellcheck disable=SC2034
 
-NC='\033[0m'       # No Color
+NC='\033[0m'              # No Color
+NO_COLOR=$NC              # No Color
 
 # Regular Colors
 Black='\033[0;30m'        # Black

@@ -3,9 +3,7 @@
 echo "Updating dotfiles"
 echo
 
-bin_dir="$(realpath "${BASH_SOURCE[0]}")"
-DOTFILES_PATH=$(dirname "$(dirname "${bin_dir}")")
-cd "${DOTFILES_PATH}" || exit
+DOTFILES_PATH=${DOTFILES_PATH:-$(dirname "$(realpath "${BASH_SOURCE[0]}")")}
 
 git rpull || true
 

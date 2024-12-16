@@ -2,46 +2,40 @@
 
 [[ "${PLATFORM-}" != "darwin" ]] && echo "Only for mac right now" && exit
 
-# Ask for the administrator password upfront
-if command -v sudo &>/dev/null; then
-  sudo -v
+# shellcheck source=lib/init.sh
+source "$(realpath "$0/../lib/init.sh")"
 
-  while true; do
-    sudo -n true
-    sleep 300
-    kill -0 "$$" || exit
-  done 2>/dev/null &
-fi
+dotfiles::sudo_keepalive
 
-echo 'Empty the Trash on all mounted volumes and the main HDD…'
+log.notice 'Empty the Trash on all mounted volumes and the main HDD…'
 sudo rm -rfv /Volumes/*/.Trashes
-sudo rm -rfv ~/.Trash
 
-echo 'Clear System Log Files…'
+log.notice 'Clear System Log Files…'
 sudo rm -rfv /private/var/log/asl/*.asl
 sudo rm -rfv /Library/Logs/DiagnosticReports/*
 rm -rfv ~/Library/Containers/com.apple.mail/Data/Library/Logs/Mail/*
 rm -rfv ~/Library/Logs/CoreSimulator/*
 
-echo 'Remove iOS Device Backups…'
+log.notice 'Remove iOS Device Backups…'
 rm -rfv ~/Library/Application\ Support/MobileSync/Backup/*
 
-echo 'Cleanup XCode Derived Data and Archives…'
+log.notice 'Cleanup XCode Derived Data and Archives…'
 rm -rfv ~/Library/Developer/Xcode/DerivedData/*
 rm -rfv ~/Library/Developer/Xcode/Archives/*
 
-echo 'Cleanup Homebrew Cache…'
+log.notice 'Cleanup Homebrew Cache…'
 brew cleanup --prune all --verbose
 rm -rfv /Library/Caches/Homebrew/*
 brew tap --repair
 
-echo 'Cleanup any old versions of gems…'
-gem cleanup
+log.notice 'Cleanup any old versions of gems…'
+gem cleanup --silent
 
-echo 'Purge inactive memory…'
+log.notice 'Purge inactive memory…'
 sudo purge
 
-echo "flushing dns..."
-sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
+log.notice "flushing dns..."
+sudo dscacheutil -flushcache
+sudo killall -HUP mDNSResponder
 
-echo "Done!"
+log.success "Done!"

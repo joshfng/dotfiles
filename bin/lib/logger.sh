@@ -1,13 +1,8 @@
 #!/usr/bin/env bash
-# We are not using `set -Eeuo pipefail` here because this file is sourced by
-# other scripts that might not be ready for a strict Bash setup. The functions
-# in this file do not require it, because they are not handling signals, have
-# no external calls that can fail (printf as well as date failures are ignored),
-# are not using any variables that need to be set, and are not using any pipes.
 
 # This logger implementation can be replaced with another logger implementation
-# by placing a script called `logger.sh` in `/usr/local/bin` of the image. The
-# only requirement for the script is that it defines the following functions:
+# by placing a script called `logger.sh` in `/usr/local/bin`. The only
+# requirement for the script is that it defines the following functions:
 #
 # - `log.debug`
 # - `log.notice`
@@ -36,6 +31,7 @@
 #
 # This function is an implementation detail and **MUST NOT** be called from
 # outside this script (which is possible if the file is sourced).
+
 __log() {
   local color instant level
 
