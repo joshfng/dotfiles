@@ -4,6 +4,7 @@ echo "Updating dotfiles"
 echo
 
 DOTFILES_PATH=${DOTFILES_PATH:-$(dirname "$(realpath "${BASH_SOURCE[0]}")")}
+cd "$DOTFILES_PATH" || exit
 
 git rpull || true
 
@@ -13,36 +14,36 @@ git rpull || true
 echo "Updating OS software..."
 echo
 
-if [[ "${PLATFORM-}" == "darwin" ]]; then
+if [[ ${PLATFORM-} == "darwin" ]]; then
   softwareupdate --all --install --verbose --agree-to-license
 fi
 
-if [[ "${PLATFORM-}" == "linux" ]]; then
-  if command -v sudo &>/dev/null; then
+if [[ ${PLATFORM-} == "linux" ]]; then
+  if command -v sudo &> /dev/null; then
     sudo -v
 
     while true; do
       sudo -n true
       sleep 300
       kill -0 "$$" || exit
-    done 2>/dev/null &
+    done 2> /dev/null &
   fi
 
-  sudo apt-get update && \
+  sudo apt-get update &&
     sudo apt-get dist-upgrade -y
 
-  sudo apt-get autoremove -y && \
+  sudo apt-get autoremove -y &&
     sudo apt-get autoclean -y
 fi
 
-if command -v brew &>/dev/null; then
+if command -v brew &> /dev/null; then
   echo
   echo "Installing bundler packages..."
   echo
 
-  if [[ "${PLATFORM-}" == "linux" ]]; then
+  if [[ ${PLATFORM-} == "linux" ]]; then
     brew bundle install --global --brews --taps --vscode --no-lock --no-restart --cleanup
-  elif [[ "${PLATFORM-}" == "darwin" ]]; then
+  elif [[ ${PLATFORM-} == "darwin" ]]; then
     brew bundle install --global --no-lock --no-restart --cleanup
   fi
 
@@ -50,7 +51,7 @@ if command -v brew &>/dev/null; then
   brew upgrade
 fi
 
-if command -v asdf &>/dev/null; then
+if command -v asdf &> /dev/null; then
   asdf update
   asdf plugin update --all || true
 fi

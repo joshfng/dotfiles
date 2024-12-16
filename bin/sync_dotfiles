@@ -7,14 +7,14 @@ DOTFILES_PATH=$(dirname "$(dirname "${bin_dir}")")
 
 SYNC_EXCLUDES=".git|.init|.ruby-lsp"
 
-declare -a files=( bin )
+declare -a files=(bin)
 
 for dotfile_path in "${DOTFILES_PATH}"/.[a-zA-Z]*; do
   dotfile=$(basename "${dotfile_path}")
 
-  [[ "${dotfile}" =~ ${SYNC_EXCLUDES} ]] && continue
+  [[ ${dotfile} =~ ${SYNC_EXCLUDES} ]] && continue
 
-  files+=( "${dotfile}" )
+  files+=("${dotfile}")
 done
 
 echo "syncing files..."
@@ -26,7 +26,7 @@ for file in "${files[@]}"; do
   home_path="${HOME:?}/${file}"
   dot_path="${DOTFILES_PATH}/${file}"
 
-  if [[ -L "${home_path}" ]]; then
+  if [[ -L ${home_path} ]]; then
     # delete if symlink
     rm "${home_path}"
   else

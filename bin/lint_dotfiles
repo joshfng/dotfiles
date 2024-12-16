@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+DOTFILES_PATH=${DOTFILES_PATH:-$(dirname "$(realpath "${BASH_SOURCE[0]}")")}
+
+cd "$DOTFILES_PATH" || exit
+
+shfmt --diff \
+  --simplify \
+  --language-dialect=bash \
+  --indent=2 \
+  --case-indent \
+  --space-redirects .
+
+# shfmt -w .
+
+shfmt -f . | grep -v bin/git | xargs shellcheck --rcfile .shellcheckrc
+
+cd "$OLDPWD" || exit

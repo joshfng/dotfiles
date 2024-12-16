@@ -5,3 +5,5 @@ My personal dotfiles that will bootstrap both macOS and linux machines. Mac deps
 ```shell
 ./bootstrap
 ```
+
+This repo follows google's [styleguide](https://google.github.io/styleguide/shellguide.html)

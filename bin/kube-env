@@ -22,27 +22,27 @@ main() {
   # trying to connect too soon after disconnecting causes issues
   sleep 1
 
-  if [[ "${CLUSTER}" == 'prod' ]]; then
+  if [[ ${CLUSTER} == 'prod' ]]; then
     scutil --nc start prod
     aws sso login --profile prod
     kubectx prod
-  elif [[ "${CLUSTER}" == 'dba' ]]; then
+  elif [[ ${CLUSTER} == 'dba' ]]; then
     scutil --nc start dba
     aws sso login --profile dba
     kubectx dba
-  elif [[ "${CLUSTER}" == 'dev' ]]; then
+  elif [[ ${CLUSTER} == 'dev' ]]; then
     scutil --nc start dev
     aws sso login --profile dev
     kubectx dev
-  elif [[ "${CLUSTER}" == 'gha-dev' ]]; then
+  elif [[ ${CLUSTER} == 'gha-dev' ]]; then
     scutil --nc start dev
     aws sso login --profile dev
     kubectx gha-dev
-  elif [[ "${CLUSTER}" == 'gha-stg' ]]; then
+  elif [[ ${CLUSTER} == 'gha-stg' ]]; then
     scutil --nc start stg
     aws sso login --profile stg
     kubectx gha-stg
-  elif [[ "${CLUSTER}" == 'stg' ]]; then
+  elif [[ ${CLUSTER} == 'stg' ]]; then
     scutil --nc start stg
     aws sso login --profile stg
     kubectx stg

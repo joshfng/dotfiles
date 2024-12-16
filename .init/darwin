@@ -27,14 +27,14 @@ osascript -e 'tell application "System Preferences" to quit'
 
 CURRENT_USER="$(whoami)"
 
-if command -v sudo &>/dev/null; then
+if command -v sudo &> /dev/null; then
   sudo -v
 
   while true; do
     sudo -n true
     sleep 300
     kill -0 "$$" || exit
-  done 2>/dev/null &
+  done 2> /dev/null &
 fi
 
 ###############################################################################
@@ -213,11 +213,11 @@ sudo pmset -a sleep 0
 sudo pmset -a standbydelay 86400
 
 # Never go into computer sleep mode
-sudo systemsetup -setcomputersleep Off >/dev/null
-sudo systemsetup -setdisplaysleep Off >/dev/null
+sudo systemsetup -setcomputersleep Off > /dev/null
+sudo systemsetup -setdisplaysleep Off > /dev/null
 
-echo yes | sudo systemsetup -setremotelogin Off >/dev/null
-echo yes | sudo systemsetup -setremoteappleevents Off >/dev/null
+echo yes | sudo systemsetup -setremotelogin Off > /dev/null
+echo yes | sudo systemsetup -setremoteappleevents Off > /dev/null
 
 sudo systemsetup -setwakeonnetworkaccess Off
 

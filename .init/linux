@@ -19,13 +19,13 @@ if [[ ! -f '/etc/apt/sources.list.d/vscode.list' ]]; then
 fi
 
 if [[ ! -f '/etc/apt/sources.list.d/tailscale.list' ]]; then
-  curl -fsSL "https://pkgs.tailscale.com/stable/ubuntu/noble.noarmor.gpg" | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
+  curl -fsSL "https://pkgs.tailscale.com/stable/ubuntu/noble.noarmor.gpg" | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg > /dev/null
   curl -fsSL "https://pkgs.tailscale.com/stable/ubuntu/noble.tailscale-keyring.list" | sudo tee /etc/apt/sources.list.d/tailscale.list
 fi
 
 if [[ ! -f '/etc/apt/sources.list.d/brave-browser-release.list' ]]; then
   curl -fsSL "https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg" | sudo tee /usr/share/keyrings/brave-browser-archive-keyring.gpg
-  echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"| sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+  echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 fi
 
 sudo apt-get update
@@ -46,7 +46,7 @@ sudo apt-get install -y \
   grep \
   gzip \
   htop \
-  hwinfo  \
+  hwinfo \
   iat \
   libcamera0.2 \
   libcurl4-openssl-dev \
@@ -89,10 +89,10 @@ sudo apt-get install -y \
   zlib1g-dev
 
 # remove ubuntu's flavor of gnome and use stock if running on a desktop
-if [[ -n "${DESKTOP_SESSION}" ]]; then
+if [[ -n ${DESKTOP_SESSION} ]]; then
   sudo apt-get purge -y pipewire-alsa pipewire-audio ubuntu-desktop gnome-shell-extension-ubuntu-dock libreoffice*
 
-  sudo apt-get -y install  \
+  sudo apt-get -y install \
     dconf-editor \
     gnome-shell-extension-manager \
     gnome-software-plugin-flatpak \

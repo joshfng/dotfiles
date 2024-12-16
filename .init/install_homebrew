@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if command -v brew 2&>/dev/null; then
+if command -v brew 2 &> /dev/null; then
   echo
   echo "homebrew is already installed"
   echo
@@ -11,7 +11,7 @@ fi
 echo "Installing homebrew and packages..."
 echo
 
-if [[ "${PLATFORM-}" == "linux" ]]; then
+if [[ ${PLATFORM-} == "linux" ]]; then
   echo "installing linux deps"
   echo
 
@@ -21,10 +21,10 @@ fi
 # shellcheck disable=SC2312
 NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
 
-# shellcheck source=../.bashrc
-. "${HOME}/.bash_profile";
+# shellcheck source=/dev/null
+. "${HOME}/.bash_profile"
 
-if ! command -v brew 2&>/dev/null; then
+if ! command -v brew 2 &> /dev/null; then
   echo
   echo "homebrew not available! exiting!"
   echo

@@ -8,7 +8,7 @@ for i in $(find . -name .git -type d -prune | cut -c 3-); do
   i=${i::-4}
 
   echo ""
-  echo -e "\033[33m"+"$CUR_DIR/$i"+"\033[0m"
+  echo -e "\033[33m$CUR_DIR/$i\033[0m"
 
   cd "$CUR_DIR/$i" || continue
 
@@ -22,7 +22,7 @@ for i in $(find . -name .git -type d -prune | cut -c 3-); do
   git fetch --all
 
   to_delete=$(git branch --no-contains "$default_branch" --merged)
-  [[ "$to_delete" == "" ]] && continue
+  [[ $to_delete == "" ]] && continue
 
   echo "branches to be deleted $to_delete"
 
