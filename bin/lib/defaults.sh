@@ -41,6 +41,9 @@ shopt -s histappend
 # Save multi-line commands as one command
 shopt -s cmdhist
 
+# After each command, append to the history file and reread it
+# PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+
 # Record each line as it gets issued
 PROMPT_COMMAND='history -a'
 
@@ -48,6 +51,7 @@ PROMPT_COMMAND='history -a'
 HISTSIZE=500000
 HISTFILESIZE=100000
 
+# HISTCONTROL=ignoredups:erasedups
 # Avoid duplicate entries
 HISTCONTROL="erasedups:ignoreboth"
 
@@ -74,3 +78,5 @@ shopt -s autocd 2> /dev/null
 shopt -s dirspell 2> /dev/null
 # Correct spelling errors in arguments supplied to cd
 shopt -s cdspell 2> /dev/null
+
+unset CDPATH

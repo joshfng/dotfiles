@@ -34,6 +34,8 @@ elif infocmp xterm-256color >/dev/null 2>&1; then
   export TERM='xterm-256color'
 fi
 
+# PATH="/usr/bin:/bin:/usr/sbin:/sbin"
+
 # shellcheck source=bin/lib/defaults.sh
 [[ -f "${HOME}/bin/lib/defaults.sh" ]] && source "${HOME}/bin/lib/defaults.sh"
 
@@ -59,6 +61,18 @@ export GOPATH="${HOME}/go"
 export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 
+command -v nproc >/dev/null && MAKEFLAGS="--jobs $(nproc)"
+export MAKEFLAGS
+
+# BAK
+# export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" || source /etc/profile
+#
+# $ getconf PATH
+# /usr/bin:/bin:/usr/sbin:/sbin
+#
+# $ /usr/libexec/path_helper -s
+# PATH="/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Applications/Wireshark.app/Contents/MacOS:/Applications/Little Snitch.app/Contents/Components:/Users/j/.asdf/shims:/Users/j/.asdf/bin:/Users/j/bin:/Users/j/bin/git:/Users/j/go/bin:/Users/j/.local/bin:/Users/j/.docker/bin:/opt/homebrew/opt/gnu-sed/libexec/gnubin:/opt/homebrew/opt/libpq/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Applications/iTerm.app/Contents/Resources/utilities"; export PATH;
+#
 # order by priority desc (highest priority should be listed last)
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 export PATH="${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:${PATH}"
@@ -76,4 +90,9 @@ export RUBY_BUILD_OPTS="--verbose"
 
 export RUBYOPT="--yjit"
 
-unset CDPATH
+# Set default blocksize for ls, df, du
+export BLOCKSIZE=1k
+
+# https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html
+export AWS_DEFAULT_PROFILE="dev"
+export AWS_DEFAULT_REGION="us-east-1"
