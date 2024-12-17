@@ -24,6 +24,25 @@ proc_count() {
   echo "$concurrency"
 }
 
+prepend_path() {
+  local _bin_dir=$1
+
+  # remove existing entry
+  case ":$PATH:" in
+    *":${_bin_dir}:"*) PATH=${PATH//$_bin_dir:/} ;;
+  esac
+
+  # add entry to the front
+  case ":$PATH:" in
+    *":$_bin_dir:"*) : ;;
+    *) PATH="$_bin_dir:$PATH" ;;
+  esac
+
+  export PATH
+
+  return
+}
+
 sudo_keepalive() {
   if command -v sudo &>/dev/null; then
     sudo -v

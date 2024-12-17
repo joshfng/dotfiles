@@ -74,17 +74,17 @@ export MAKEFLAGS
 # PATH="/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Applications/Wireshark.app/Contents/MacOS:/Applications/Little Snitch.app/Contents/Components:/Users/j/.asdf/shims:/Users/j/.asdf/bin:/Users/j/bin:/Users/j/bin/git:/Users/j/go/bin:/Users/j/.local/bin:/Users/j/.docker/bin:/opt/homebrew/opt/gnu-sed/libexec/gnubin:/opt/homebrew/opt/libpq/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Applications/iTerm.app/Contents/Resources/utilities"; export PATH;
 #
 # order by priority desc (highest priority should be listed last)
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-export PATH="${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:${PATH}"
-export PATH="${HOME}/.docker/bin:${PATH}"
-export PATH="${HOME}/.local/bin:${PATH}"
-export PATH="${GOPATH}/bin:${PATH}"
-export PATH="${HOME}/bin/git:${PATH}"
-export PATH="${HOME}/bin:${PATH}"
+prepend_path "${HOMEBREW_PREFIX}/opt/libpq/bin"
+prepend_path "${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin"
+prepend_path "${HOME}/.docker/bin"
+prepend_path "${HOME}/.local/bin"
+prepend_path "${GOPATH}/bin"
+prepend_path "${HOME}/bin/git"
+prepend_path "${HOME}/bin"
 
-export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/libpq/lib/pkgconfig"
+export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/libpq/lib"
+export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/libpq/include"
+export PKG_CONFIG_PATH="${HOMEBREW_PREFIX}/opt/libpq/lib/pkgconfig"
 
 export RUBY_BUILD_OPTS="--verbose"
 
