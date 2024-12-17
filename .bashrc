@@ -1,15 +1,10 @@
 #!/usr/bin/env bash
 
-# [[ -z "$PS1" ]] && return
-if [[ $- != *i* ]]; then return; fi
-
-
 # shellcheck disable=SC1091,SC2312,SC1090
 
-[[ -f "${HOME}/.exports" ]] && . "${HOME}/.exports"
-[[ -f "${HOME}/.secrets" ]] && . "${HOME}/.secrets"
+if [[ $- != *i* ]]; then return; fi # [[ -z "$PS1" ]] && return
 
-for file in "${HOME}/."{functions,bash_prompt,aliases,extra}; do
+for file in "${HOME}/."{functions,exports,bash_prompt,aliases,extra,secrets}; do
   [[ -f "${file}" ]] && . "${file}"
 done
 unset file
@@ -33,8 +28,8 @@ for completion_dir in "${completion_dirs[@]}"; do
 done
 unset completion_dir
 
-[[ -r "${HOME}/.asdf/asdf.sh" ]] && . "${HOME}/.asdf/asdf.sh"
-[[ -r "${HOME}/.asdf/completions/asdf.bash" ]] && . "${HOME}/.asdf/completions/asdf.bash"
+[[ -f "${HOME}/.asdf/asdf.sh" ]] && . "${HOME}/.asdf/asdf.sh"
+[[ -f "${HOME}/.asdf/completions/asdf.bash" ]] && . "${HOME}/.asdf/completions/asdf.bash"
 
 # disable flow control if we have a TTY
 [[ -s 0 ]] && stty -ixon

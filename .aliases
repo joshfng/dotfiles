@@ -184,7 +184,7 @@ elif [[ "${PLATFORM-}" == "darwin" ]]; then
   alias dumpbrew="brew bundle dump --force --global --all --no-lock --no-restart"
 fi
 
-alias burnin="stress --cpu \$(nproc) --io 10 --vm 20 --vm-bytes 128M --hdd 4 --hdd-bytes 1G --timeout 24h"
+alias burnin="stress --cpu \$(proc_count) --io 10 --vm 20 --vm-bytes 128M --hdd 4 --hdd-bytes 1G --timeout 24h"
 
 alias netcontent="sudo netstat -atln"
 

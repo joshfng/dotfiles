@@ -10,6 +10,20 @@ decrypt() {
     gpg -o "${1%.*}" -d "$1"
 }
 
+proc_count() {
+  local concurrency=1
+
+  if command -v nproc &>/dev/null; then
+    concurrency=$(nproc)
+  elif command -v sysctl &>/dev/null && sysctl hw.ncpu &>/dev/null; then
+    concurrency=$(sysctl -n hw.ncpu)
+  elif [ -f /proc/cpuinfo ]; then
+    concurrency=$(grep -c processor /proc/cpuinfo)
+  fi
+
+  echo "$concurrency"
+}
+
 sudo_keepalive() {
   if command -v sudo &>/dev/null; then
     sudo -v

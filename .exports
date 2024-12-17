@@ -61,7 +61,7 @@ export GOPATH="${HOME}/go"
 export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 
-command -v nproc >/dev/null && MAKEFLAGS="--jobs $(nproc)"
+MAKEFLAGS="--jobs $(proc_count)"
 export MAKEFLAGS
 
 # BAK
