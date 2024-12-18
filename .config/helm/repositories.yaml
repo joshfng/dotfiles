@@ -127,3 +127,12 @@ repositories:
   password: ""
   url: https://actions-runner-controller.github.io/actions-runner-controller
   username: ""
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: grafana-charts
+  pass_credentials_all: false
+  password: ""
+  url: https://grafana.github.io/helm-charts
+  username: ""
