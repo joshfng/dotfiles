@@ -9,6 +9,8 @@ for file in "${HOME}/."{functions,exports,bash_prompt,aliases,extra,secrets}; do
 done
 unset file
 
+[[ -f ""${HOMEBREW_PREFIX:-}/opt/asdf/libexec/asdf.sh"" ]] && . "${HOMEBREW_PREFIX:-}/opt/asdf/libexec/asdf.sh"
+
 # bash-completion
 [[ -f /usr/share/bash-completion/bash_completion ]] && . /usr/share/bash-completion/bash_completion
 [[ -f "${HOMEBREW_PREFIX:-}/etc/profile.d/bash_completion.sh" ]] && . "${HOMEBREW_PREFIX:-}/etc/profile.d/bash_completion.sh"
@@ -28,9 +30,6 @@ for completion_dir in "${completion_dirs[@]}"; do
 done
 unset completion_dir
 unset completion_dirs
-
-[[ -f "${HOME}/.asdf/asdf.sh" ]] && . "${HOME}/.asdf/asdf.sh"
-[[ -f "${HOME}/.asdf/completions/asdf.bash" ]] && . "${HOME}/.asdf/completions/asdf.bash"
 
 # disable flow control if we have a TTY
 [[ -s 0 ]] && stty -ixon
