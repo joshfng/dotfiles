@@ -27,6 +27,7 @@ for completion_dir in "${completion_dirs[@]}"; do
   fi
 done
 unset completion_dir
+unset completion_dirs
 
 [[ -f "${HOME}/.asdf/asdf.sh" ]] && . "${HOME}/.asdf/asdf.sh"
 [[ -f "${HOME}/.asdf/completions/asdf.bash" ]] && . "${HOME}/.asdf/completions/asdf.bash"
