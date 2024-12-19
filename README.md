@@ -7,3 +7,5 @@ My personal dotfiles that will bootstrap both macOS and linux machines. Mac deps
 ```
 
 This repo follows google's [styleguide](https://google.github.io/styleguide/shellguide.html)
+
+[Bash Reference Manual](https://www.gnu.org/software/bash/manual/html_node/)

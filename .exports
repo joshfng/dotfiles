@@ -28,9 +28,9 @@ export GPG_TTY
 export MANPAGER='less -X'
 
 # shellcheck disable=SC2154
-if [[ "${COLORTERM}" = gnome-* && "${TERM}" = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
+if [[ "${COLORTERM}" = gnome-* && "${TERM}" = xterm ]] && infocmp gnome-256color > /dev/null 2>&1; then
   export TERM='gnome-256color'
-elif infocmp xterm-256color >/dev/null 2>&1; then
+elif infocmp xterm-256color > /dev/null 2>&1; then
   export TERM='xterm-256color'
 fi
 

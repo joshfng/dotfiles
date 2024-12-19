@@ -18,5 +18,8 @@ shell_variant      = bash
 space_redirects    = true
 switch_case_indent = true
 
-[bin/git/**]
+[bin/git]
+ignore = true
+
+[.config]
 ignore = true

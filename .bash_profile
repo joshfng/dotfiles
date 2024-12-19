@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-[[ -s "${HOME}/.bashrc" ]] && . "${HOME}/.bashrc"
+[[ -f "${HOME}/.bashrc" ]] && . "${HOME}/.bashrc"

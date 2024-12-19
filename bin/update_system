@@ -29,11 +29,9 @@ if [[ ${PLATFORM-} == "linux" ]]; then
     done 2> /dev/null &
   fi
 
-  sudo apt-get update &&
-    sudo apt-get dist-upgrade -y
+  sudo apt-get update && sudo apt-get dist-upgrade -y
 
-  sudo apt-get autoremove -y &&
-    sudo apt-get autoclean -y
+  sudo apt-get autoremove -y && sudo apt-get autoclean -y
 fi
 
 if command -v brew &> /dev/null; then
@@ -52,6 +50,5 @@ if command -v brew &> /dev/null; then
 fi
 
 if command -v asdf &> /dev/null; then
-  asdf update
   asdf plugin update --all || true
 fi

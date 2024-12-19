@@ -1,18 +1,96 @@
 #!/usr/bin/env bash
 
-DOTFILES_PATH=${DOTFILES_PATH:-$(dirname "$(realpath "${BASH_SOURCE[0]}")")}
+IFS=$'\n\t'
 
+print.info() {
+  printf '[INFO] %s\n' "$*"
+}
+
+print.error() {
+  printf '[ERROR] %s\n' "$*" >&2
+}
+
+usage() {
+  printf "%s\n\n" "Usage: scripts/lint.bash [options]"
+  printf "%s\n" "Options:"
+  printf "%s\n" "  -c, --check   Error if any issues are found"
+  printf "%s\n" "  -f, --fix     Automatically fix issues if possible"
+  printf "%s\n" "  -h, --help    Display this help message"
+}
+
+run_shfmt_stylecheck() {
+  local shfmt_flag=""
+  if [ "$1" = "fix" ]; then
+    shfmt_flag="--write"
+  else
+    shfmt_flag="--diff"
+  fi
+
+  print.info "Checking .bash with shfmt"
+  shfmt --apply-ignore \
+    --language-dialect bash \
+    --indent 2 "${shfmt_flag}" \
+    --simplify \
+    --binary-next-line \
+    --case-indent \
+    --space-redirects \
+    --keep-padding \
+    .
+}
+
+run_shellcheck_linter() {
+  print.info "Checking .bash files with Shellcheck"
+  shfmt --apply-ignore -f . | xargs shellcheck --rcfile .shellcheckrc --shell bash --external-sources
+}
+
+{
+  repo_dir=$(git rev-parse --show-toplevel)
+  current_dir=$(pwd -P)
+  if [ "$repo_dir" != "$current_dir" ]; then
+    print.error "This scripts requires execution from the repository root directory."
+    printf "\t%s\t%s\n" "Repo root dir:" "$repo_dir"
+    printf "\t%s\t%s\n\n" "Current dir:" "$current_dir"
+    exit 1
+  fi
+}
+
+if [ $# -eq 0 ]; then
+  print.error "At least one option required."
+  printf "=%.0s" {1..60}
+  printf "\n"
+  usage
+  exit 1
+fi
+
+mode=
+case "$1" in
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  -c | --check)
+    mode="check"
+    ;;
+  -f | --fix)
+    mode="fix"
+    ;;
+  *)
+    print.error "Invalid flag: $1"
+    printf "=%.0s" {1..60}
+    printf "\n"
+    usage
+    exit 1
+    ;;
+esac
+
+DOTFILES_PATH=${DOTFILES_PATH:-$(dirname "$(realpath "${BASH_SOURCE[0]}")")}
 cd "$DOTFILES_PATH" || exit
 
-shfmt --diff \
-  --simplify \
-  --language-dialect=bash \
-  --indent=2 \
-  --case-indent \
-  --space-redirects .
+printf "%s\"%s\"\n" "[INFO] Executing with mode: " "$mode"
 
-# shfmt -w .
+run_shfmt_stylecheck "$mode"
+run_shellcheck_linter "$mode"
 
-shfmt -f . | grep -v bin/git | xargs shellcheck --rcfile .shellcheckrc
+print.info "Success!"
 
 cd "$OLDPWD" || exit
