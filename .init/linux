@@ -32,7 +32,6 @@ sudo apt-get update
 
 sudo apt-get install -y \
   apt-transport-https \
-  brave-browser \
   bridge-utils \
   build-essential \
   ca-certificates \
@@ -93,6 +92,7 @@ if [[ -n ${DESKTOP_SESSION} ]]; then
   sudo apt-get purge -y pipewire-alsa pipewire-audio ubuntu-desktop gnome-shell-extension-ubuntu-dock libreoffice*
 
   sudo apt-get -y install \
+    brave-browser \
     dconf-editor \
     gnome-shell-extension-manager \
     gnome-software-plugin-flatpak \
@@ -115,15 +115,21 @@ if [[ -n ${DESKTOP_SESSION} ]]; then
 
   sudo update-alternatives --config gdm3-theme.gresource
 
-  dconf load / < ~/.config/dconf-settings.ini
+  if command -v dconf &> /dev/null; then
+    if [[ -f "${HOME}/.config/dconf-settings.ini" ]]; then
+      dconf load / < "${HOME}/.config/dconf-settings.ini"
+    fi
+  fi
 
   if ! command -v discord &> /dev/null; then
     curl -fsSL -o /tmp/discord.deb "https://discord.com/api/download?platform=linux&format=deb"
     sudo apt-get -y install /tmp/discord.deb
+    rm -rf /tmp/discord.deb || true
   fi
 
   if ! command -v open-lens &> /dev/null; then
     curl -fsSL -o /tmp/openlens.deb "https://github.com/MuhammedKalkan/OpenLens/releases/download/v6.5.2-366/OpenLens-6.5.2-366.amd64.deb"
     sudo apt-get -y install /tmp/openlens.deb
+    rm -rf /tmp/openlens.deb || true
   fi
 fi

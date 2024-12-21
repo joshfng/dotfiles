@@ -5,4 +5,4 @@ color=auto
 check-sourced=true
 external-sources=true
 
-source-path=SCRIPTDIR/bin
+source-path=bin
