@@ -84,6 +84,7 @@ export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/libpq/lib"
 export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/libpq/include"
 export PKG_CONFIG_PATH="${HOMEBREW_PREFIX}/opt/libpq/lib/pkgconfig"
 
+export RUBY_CONFIGURE_OPTS="--with-jemalloc-dir=${HOMEBREW_PREFIX}/opt/jemalloc"
 export RUBY_BUILD_OPTS="--verbose"
 
 export RUBYOPT="--yjit"
