@@ -2,18 +2,20 @@
 
 set -eo pipefail
 
-NAMESPACE=$1
+kubectlgetall() {
+  local -a resources
+  resources=$(kubectl api-resources --verbs=list --namespaced -o name | grep -v "events.events.k8s.io" | grep -v "events" | sort | uniq) || true
 
-function kubectlgetall {
-  for i in $(kubectl api-resources --verbs=list --namespaced -o name | grep -v "events.events.k8s.io" | grep -v "events" | sort | uniq); do
+  local namespace="default"
+  [[ -n $1  ]] && namespace="$1"
+
+  for i in ${resources}; do
     echo "Resource:" "${i}"
+    echo "kubectl -n ${namespace} get --ignore-not-found ${i}"
 
-    if [[ -z $1 ]]; then
-      kubectl get --ignore-not-found "${i}"
-    else
-      kubectl -n "${1}" get --ignore-not-found "${i}"
-    fi
+    # kubectl -n "${namespace}" get --ignore-not-found "${i}"
   done
+  unset i
 }
 
-kubectlgetall "${NAMESPACE}"
+kubectlgetall "$1"

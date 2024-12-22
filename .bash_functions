@@ -61,7 +61,7 @@ wipe_disk() {
     device="$1"
   else
     echo "missing device, ie: wipe_disk /dev/diskN"
-    exit
+    return
   fi
 
   sudo_keepalive
@@ -91,17 +91,8 @@ wipe_disk() {
   fi
 }
 
-function kill_vpns() {
-  local conns=$(scutil --nc list | grep Connected | cut -d'"' -f 2)
-
-  [[ -n "${conns}" ]] && echo "${conns}"
-  for c in ${conns}; do
-    scutil --nc stop "${c}"
-  done
-}
-
 # Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression
-function targz() {
+targz() {
   local tmpFile="${*%/}.tar"
   tar -cvf "${tmpFile}" --exclude=".DS_Store" "${@}" || return 1
 
@@ -135,7 +126,7 @@ function targz() {
 }
 
 # Determine size of a file or total size of a directory
-function fs() {
+fs() {
   if du -b /dev/null >/dev/null 2>&1; then
     local arg=-sbh
   else
@@ -149,7 +140,7 @@ function fs() {
 }
 
 # Compare original and gzipped file size
-function gz() {
+gz() {
   local origsize=$(wc -c <"$1")
   local gzipsize=$(gzip -c "$1" | wc -c)
   local ratio=$(echo "${gzipsize} * 100 / ${origsize}" | bc -l)
@@ -170,7 +161,7 @@ fi
 
 # `o` with no arguments opens the current directory, otherwise opens the given
 # location
-function o() {
+o() {
   if [[ $# -eq 0 ]]; then
     open .
   else

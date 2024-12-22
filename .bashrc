@@ -2,12 +2,10 @@
 
 # shellcheck disable=SC1091,SC2312,SC1090
 
-[[ $- != *i* ]] && return # [[ -z "$PS1" ]] && return
-
-for file in "${HOME}/."{functions,exports,bash_prompt,aliases,extra,secrets}; do
-  [[ -f "${file}" ]] && . "${file}"
+for import_file in "${HOME}/.bash_"{functions,exports,prompt,aliases,extras,secrets}; do
+  [[ -f "${import_file}" ]] && . "${import_file}"
 done
-unset file
+unset import_file
 
 # bash-completion
 [[ -f /usr/share/bash-completion/bash_completion ]] && . /usr/share/bash-completion/bash_completion

@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC1091
+
 echo "Updating dotfiles"
 echo
 
-DOTFILES_PATH=${DOTFILES_PATH:-$(dirname "$(realpath "${BASH_SOURCE[0]}")")}
-cd "$DOTFILES_PATH" || exit
+DOTFILES_PATH=${DOTFILES_PATH:-"$(dirname "$(realpath "${BASH_SOURCE[0]}/../")")"}
+export DOTFILES_PATH
+
+cd "${DOTFILES_PATH}" || exit 127
+
+# shellcheck source=/dev/null
+. "${DOTFILES_PATH}/bin/lib/init.sh"
 
 git rpull || true
 
-# shellcheck disable=SC1091
 . "${DOTFILES_PATH}/bin/sync_dotfiles"
 
 echo "Updating OS software..."
@@ -19,15 +25,7 @@ if [[ ${PLATFORM-} == "darwin" ]]; then
 fi
 
 if [[ ${PLATFORM-} == "linux" ]]; then
-  if command -v sudo &> /dev/null; then
-    sudo -v
-
-    while true; do
-      sudo -n true
-      sleep 300
-      kill -0 "$$" || exit
-    done 2> /dev/null &
-  fi
+  dotfiles::sudo_keepalive
 
   sudo apt-get update && sudo apt-get dist-upgrade -y
 

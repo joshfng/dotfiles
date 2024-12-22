@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+DOTFILES_PATH=${DOTFILES_PATH:-"$(dirname "$(realpath "${BASH_SOURCE[0]}/../")")"}
+export DOTFILES_PATH
+
 IFS=$'\n\t'
 
 print.info() {
@@ -82,9 +85,6 @@ case "$1" in
     exit 1
     ;;
 esac
-
-DOTFILES_PATH=${DOTFILES_PATH:-$(dirname "$(realpath "${BASH_SOURCE[0]}")")}
-cd "$DOTFILES_PATH" || exit
 
 printf "%s\"%s\"\n" "[INFO] Executing with mode: " "$mode"
 

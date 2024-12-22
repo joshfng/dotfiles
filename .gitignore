@@ -21,7 +21,12 @@ Desktop.ini
 !.config/dconf-settings.ini
 
 .extra
+.bash_extra
+.extras
+.bash_extras
 .secrets
+.bash_secrets
+
 .ssh
 .viminfo
 

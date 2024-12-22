@@ -2,8 +2,11 @@
 
 [[ ${PLATFORM-} != "darwin" ]] && echo "Only for mac right now" && exit
 
+DOTFILES_PATH=${DOTFILES_PATH:-"$(dirname "$(realpath "${BASH_SOURCE[0]}/../")")"}
+export DOTFILES_PATH
+
 # shellcheck source=/dev/null
-source "$(realpath "$0/../lib/init.sh")"
+. "${DOTFILES_PATH}/bin/lib/init.sh"
 
 dotfiles::sudo_keepalive
 

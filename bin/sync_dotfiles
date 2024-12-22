@@ -2,8 +2,8 @@
 
 # shellcheck disable=SC2115
 
-bin_dir="$(realpath "${BASH_SOURCE[0]}")"
-DOTFILES_PATH=$(dirname "$(dirname "${bin_dir}")")
+DOTFILES_PATH=${DOTFILES_PATH:-"$(dirname "$(realpath "${BASH_SOURCE[0]}/../")")"}
+export DOTFILES_PATH
 
 SYNC_EXCLUDES=".git|.init|.ruby-lsp"
 
@@ -20,18 +20,18 @@ done
 echo "syncing files..."
 echo
 
-for file in "${files[@]}"; do
-  echo "linking ${file}"
+for import_file in "${files[@]}"; do
+  echo "linking ${import_file}"
 
-  home_path="${HOME:?}/${file}"
-  dot_path="${DOTFILES_PATH}/${file}"
+  home_path="${HOME:?}/${import_file}"
+  dot_path="${DOTFILES_PATH}/${import_file}"
 
   if [[ -L ${home_path} ]]; then
     # delete if symlink
-    rm "${home_path}"
-  else
+    rm "${home_path}" || true
+  elif [[ -f ${home_path}   ]]; then
     # backup if not symlink
-    mv "${home_path}" "${home_path}.bak"
+    mv "${home_path}" "${home_path}.bak" || true
   fi
 
   ln -s "${dot_path}" "${home_path}"

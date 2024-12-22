@@ -1,24 +1,16 @@
 #!/usr/bin/env bash
 
-DOTFILES_PATH=$(dirname "$(realpath "${BASH_SOURCE[0]}")")
-export DOTFILES
+DOTFILES_PATH=${DOTFILES_PATH:-"$(dirname "$(realpath "${BASH_SOURCE[0]}")")"}
+export DOTFILES_PATH
 
-cd "${DOTFILES_PATH}" || exit
+. "${DOTFILES_PATH}/bin/lib/init.sh"
 
-if command -v sudo &> /dev/null; then
-  sudo -v
-
-  while true; do
-    sudo -n true
-    sleep 300
-    kill -0 "$$" || exit
-  done 2> /dev/null &
-fi
+dotfiles::sudo_keepalive
 
 # link required files to home directory
 . "${DOTFILES_PATH}/bin/sync_dotfiles"
 
-. "${HOME}/.bash_profile"
+. "${DOTFILES_PATH}/.bash_profile"
 
 # shellcheck disable=SC1090
 . "${DOTFILES_PATH}/.init/${PLATFORM-}"
@@ -46,18 +38,10 @@ if [[ ${PLATFORM-} == "darwin" ]]; then
 fi
 
 # shellcheck source=../bin/update_system
-. "${HOME}/bin/update_system"
+. "${DOTFILES_PATH}/bin/update_system"
 
 echo "bootsrapping asdf"
 echo
-
-# shellcheck disable=SC1091
-if ! command -v asdf &> /dev/null; then
-  git clone https://github.com/asdf-vm/asdf.git "${HOME}/.asdf" --branch v0.14.1
-
-  . "${HOME}/.asdf/asdf.sh"
-  . "${HOME}/.asdf/completions/asdf.bash"
-fi
 
 if command -v asdf &> /dev/null; then
   plugins=$(awk '{print $1}' < "${HOME}/.tool-versions" | tr '\n' ' ')
@@ -65,6 +49,7 @@ if command -v asdf &> /dev/null; then
   for plugin in ${plugins}; do
     asdf plugin add "${plugin}"
   done
+  unset plugin
 
   asdf install
 fi

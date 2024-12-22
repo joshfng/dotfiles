@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+DOTFILES_PATH=${DOTFILES_PATH:-"$(dirname "$(realpath "${BASH_SOURCE[0]}/../")")"}
+export DOTFILES_PATH
+
+# shellcheck source=/dev/null
+. "${DOTFILES_PATH}/bin/lib/init.sh"
+
+CLUSTER=$1
+
+if [[ ${CLUSTER} == ""  ]]; then
+  echo "usage: kubectl env CLUSTER"
+  exit 1
+fi
+
+kubectlenv() {
+  wireguard::disconnect_vpns
+
+  if [[ ${CLUSTER} == 'gha-dev'   ]]; then
+    scutil --nc start dev
+    aws sso login --profile dev
+    kubectx "${CLUSTER}"
+  elif [[ ${CLUSTER} == 'gha-stg'   ]]; then
+    scutil --nc start stg
+    aws sso login --profile stg
+    kubectx "${CLUSTER}"
+  else
+    scutil --nc start "${CLUSTER}"
+    aws sso login --profile "${CLUSTER}"
+    kubectx "${CLUSTER}"
+  fi
+}
+
+kubectlenv "${CLUSTER}"
