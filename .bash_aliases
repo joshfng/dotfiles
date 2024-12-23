@@ -221,10 +221,10 @@ alias cs='gh cs create --location EastUs --machine standardLinux32gb'
 
 alias k='kubectl'
 
-alias prod='kube-env prod'
-alias stg='kube-env stg'
-alias dev='kube-env dev'
-alias dba='kube-env dba'
+alias prod='kubectl env prod'
+alias stg='kubectl env stg'
+alias dev='kubectl env dev'
+alias dba='kubectl env dba'
 
 alias kvpn=kill_vpns
 

@@ -23,4 +23,6 @@ wireguard::disconnect_vpns() {
     scutil --nc stop "${c}"
   done
   unset c
+
+  sleep 2
 }
