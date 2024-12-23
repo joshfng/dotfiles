@@ -25,7 +25,7 @@ if [[ "${PLATFORM-}" == "darwin" ]]; then
 
   # Google Chrome
   alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-  alias canary='/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary'
+  alias google-chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 
   # Clean up LaunchServices to remove duplicates in the “Open With” menu
   alias lscleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
@@ -52,9 +52,8 @@ if [[ "${PLATFORM-}" == "darwin" ]]; then
   # Enable Spotlight
   alias spoton="sudo mdutil -a -i on"
 
-  # Kill all the tabs in Chrome to free up memory
-  # [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
-  alias chromekill="ps ux | grep '[C]hrome Helper' | grep 'type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
+  # alias chromekill="ps ux | grep '[C]hrome Helper' | grep 'type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
+  alias chromekill='killall "Google Chrome Helper (Renderer)"'
 
   # Lock the screen (when going AFK)
   alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
