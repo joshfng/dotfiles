@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+ORG=$1
+declare -a REPOS
+
+mkdir -p "${ORG}" || exit
+cd "${ORG}" || exit
+
+mapfile -t REPOS < <(gh api "orgs/${ORG}/repos" --paginate --jq '.[].ssh_url')
+
+for repo in "${REPOS[@]}"; do
+  echo "cloning ${repo}..."
+  echo
+  git clone "${repo}" || continue
+done
+unset repo
+
+echo "done"
+echo
