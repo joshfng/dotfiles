@@ -31,7 +31,7 @@ if [[ "${PLATFORM-}" == "darwin" ]]; then
   command -v sha1sum >/dev/null || alias sha1sum="shasum"
 
   # Trim new lines and copy to clipboard
-  alias tcopy="tr -d '\n' | pbcopy"
+  alias c="tr -d '\n' | pbcopy"
 
   # Show/hide hidden files in Finder
   alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
