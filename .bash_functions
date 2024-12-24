@@ -2,6 +2,10 @@
 
 # shellcheck disable=SC2155,SC2312
 
+token() {
+  head -c 12 /dev/urandom | shasum | cut -d ' ' -f1
+}
+
 encrypt() {
     gpg -es -r "$GPGKEY" "$1"
 }
